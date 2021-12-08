@@ -29,18 +29,19 @@ Python based event server with [Flask](https://palletsprojects.com/p/flask/)
    * [Kaldi Server](#kaldi-server)
       * [Table of Contents](#table-of-contents)
       * [How To](#how-to)
-         * [Installation](#installation)
+         * [Local Installation](#local-installation)
             * [Ubuntu dependencies](#ubuntu-dependencies)
-            * [Kaldi &amp; pre-built pykaldi binaries](#kaldi--pre-built-pykaldi-binaries)
+            * [Kaldi &amp; pre-built Pykaldi binaries](#kaldi--pre-built-pykaldi-binaries)
 
-<!-- Added by: jose, at: Wed Dec  8 21:13:12 CET 2021 -->
+<!-- Added by: jose, at: Thu Dec  9 00:13:56 CET 2021 -->
 
 <!--te-->
 
 ## How To
 
-### Installation
+### Local Installation
 
+> This is known to work in `Ubuntu 18.04`
 
 #### Ubuntu dependencies
 
@@ -48,13 +49,26 @@ Python based event server with [Flask](https://palletsprojects.com/p/flask/)
 ./scripts/install_ubuntu_deps.sh
 ```
 
-#### Kaldi & pre-built pykaldi binaries
-
-
-First we need to get the environment ready and install `kaldi`:
+> 💡 **Tip**: Before installing the python dependencies, it is recommended to activate a
+> `virtualvenv` or `conda env`
 
 ```bash
+python3.8 -m venv .venv
+```
 
+or with conda:
+
+```bash
+conda create -n kaldi-server python=3.8
+```
+
+#### Kaldi & pre-built Pykaldi binaries
+
+
+First we need to install `kaldi`:
+
+```bash
+./scripts/install_kaldi.sh  # or install_kaldi_intel.sh
 ```
 
 Then we can install `pykaldi`:

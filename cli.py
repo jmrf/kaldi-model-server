@@ -9,7 +9,7 @@ def get_args():
         dest="input",
         help="Input scp, simulate online decoding from wav files",
         type=str,
-        default="scp:wav.scp",
+        default="scp:conf/wav.scp",
     )
     parser.add_argument(
         "-l",
@@ -139,14 +139,17 @@ def get_args():
         dest="yaml_config",
         help="Path to the yaml model config",
         type=str,
-        default="models/kaldi_tuda_de_nnet3_chain2.yaml",
+        default="conf/en_160k_nnet3chain_tdnn1f_2048_sp_bi.yaml",
     )
     parser.add_argument(
         "-o",
         "--online-config",
         dest="online_config",
-        help="Path to the Kaldi online config. If not available, will try to read the parameters from the yaml"
-        " file and convert it to the Kaldi online config format (See online_config_options.info.txt for details)",
+        help=(
+            "Path to the Kaldi online config. If not available, will try to read the " ,
+            "parameters from the yaml file and convert it to the Kaldi online config ",
+            "format (See online_config_options.info.txt for details)",
+        ),
         type=str,
         default="models/kaldi_tuda_de_nnet3_chain2.online.conf",
     )

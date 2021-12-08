@@ -32,6 +32,7 @@ help:
 
 install:
 	pip install -r requirements.txt
+	pip install -r requirements-dev.txt
 	pip list
 
 clean:
@@ -47,32 +48,36 @@ clean:
 	# rm -rf pip-wheel-metadata
 
 run:
-	python -m ticketer.run --d
+	python nnet3_model.py -m 12
+
 formatter:
-	black ticketer --exclude tests/
+	black . --exclude kaldi/
 
 lint:
-	flake8 ticketer tests --exclude tests/
-	black --check ticketer tests --exclude tests/
+	flake8 . tests --exclude tests/
+	black --check . tests --exclude kaldi/
 
 types:
 	# https://google.github.io/pytype/
-	pytype --keep-going ticketer --exclude ticketer/tests
+	pytype --keep-going . --exclude ./kaldi .venv
 
 pyupgrade:
-	find .  -name '*.py' | grep -v 'proto\|eggs\|docs' | xargs pyupgrade --py36-plus
+	find .  -name '*.py' | \
+		grep -v 'proto\|eggs\|docs\|kaldi\|.venv' | \
+		xargs pyupgrade --py36-plus
 
 readme-toc:
 	# https://github.com/ekalinin/github-markdown-toc
-	find . -name README.md -exec gh-md-toc --insert {} \;
-
-# if this runs through we can be sure the readme is properly shown on pypi
-check-readme:
-	python setup.py check --restructuredtext --strict
+	find . \
+		! -path './kaldi/*' \
+		! -path './.venv/*' \
+		-name README.md \
+		-exec gh-md-toc --insert {} \;
 
 test: clean
-	# OMP_NUM_THREADS can improve overral performance using one thread by process (on tensorflow), avoiding overload
-	OMP_NUM_THREADS=1 pytest tests -n $(JOBS) --cov ticketer
+	# OMP_NUM_THREADS can improve overral performance using one thread by process
+	# (on tensorflow), avoiding overload
+	OMP_NUM_THREADS=1 pytest tests -n $(JOBS) --cov .
 
 build-docker:
 	# Examples:
@@ -84,11 +89,6 @@ upload-package: clean
 	twine upload dist/* -r melior
 
 tag:
-	git tag $$( python -c 'import ticketer; print(ticketer.__version__)' )
+	git tag $$( python -c 'import .; print(..__version__)' )
 	git push --tags
 
-setup-dvc:
-	# Configure https://mai-dvc.ams3.digitaloceanspaces.com as remote storage
-	dvc init
-	dvc remote add -d $(remote) s3://mai-dvc/$(remote)
-	dvc remote modify $(remote) endpointurl https://ams3.digitaloceanspaces.com
