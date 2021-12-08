@@ -32,8 +32,9 @@ Python based event server with [Flask](https://palletsprojects.com/p/flask/)
          * [Local Installation](#local-installation)
             * [Ubuntu dependencies](#ubuntu-dependencies)
             * [Kaldi &amp; pre-built Pykaldi binaries](#kaldi--pre-built-pykaldi-binaries)
+         * [Local run](#local-run)
 
-<!-- Added by: jose, at: Thu Dec  9 00:13:56 CET 2021 -->
+<!-- Added by: jose, at: Thu Dec  9 00:36:03 CET 2021 -->
 
 <!--te-->
 
