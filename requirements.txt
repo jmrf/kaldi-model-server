@@ -1,0 +1,11 @@
+pyparsing
+ninja
+redis
+pyyaml
+pyaudio
+flask
+flask_cors
+bs4
+samplerate
+scipy
+soundfile

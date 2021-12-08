@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'Benjamin Milde'
+__author__ = "Benjamin Milde"
 
-#http://www.huyng.com/posts/python-performance-analysis/
+# http://www.huyng.com/posts/python-performance-analysis/
 import time
+
 
 class Timer(object):
     def __init__(self, verbose=False):
@@ -24,7 +25,7 @@ class Timer(object):
         self.secs = self.end_time - self.start_time
         self.msecs = self.secs * 1000  # millisecs
         if self.verbose:
-            print('elapsed time: %f ms' % self.msecs)
+            print("elapsed time: %f ms" % self.msecs)
 
     def current_secs(self):
         self.stop()

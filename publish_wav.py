@@ -9,14 +9,14 @@ red = redis.StrictRedis()
 print(sys.argv)
 signal, samplerate = sf.read(sys.argv[1])
 
-signal = (signal * (2**15)).astype(np.int16)
+signal = (signal * (2 ** 15)).astype(np.int16)
 # signal = signal[:, 0]
 print(samplerate)
 print(signal.shape)
 
-audio_data_channel = 'asr_audio'
+audio_data_channel = "asr_audio"
 
-chunks = [signal[x:x+4096] for x in range(0, len(signal), 4096)]
+chunks = [signal[x : x + 4096] for x in range(0, len(signal), 4096)]
 
 for chunk in chunks:
     t1 = time.time()
