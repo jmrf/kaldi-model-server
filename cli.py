@@ -151,7 +151,7 @@ def get_args():
             "format (See online_config_options.info.txt for details)",
         ),
         type=str,
-        default="models/kaldi_tuda_de_nnet3_chain2.online.conf",
+        default="models/en_160k_nnet3chain_tdnn1f_2048_sp_bi/conf/online.conf",
     )
     parser.add_argument(
         "-r",

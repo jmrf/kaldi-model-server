@@ -41,7 +41,7 @@ Python based event server with [Flask](https://palletsprojects.com/p/flask/)
 
 ### Local Installation
 
-> This is known to work in `Ubuntu 18.04`
+> This is known to work in `Ubuntu 18.04` with a python 3.8 venv!
 
 #### Ubuntu dependencies
 
@@ -68,20 +68,30 @@ conda create -n kaldi-server python=3.8
 First we need to install `kaldi`:
 
 ```bash
+# download, compile and install Kaldi
 ./scripts/install_kaldi.sh  # or install_kaldi_intel.sh
-```
 
-Then we can install `pykaldi`:
-
-```bash
-wget https://ltdata1.informatik.uni-hamburg.de/pykaldi/pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
-pip install pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
+# download and install pykaldi
+./scripts/install_pykaldi.sh
 ```
 
 > Check [these instruction](http://ltdata1.informatik.uni-hamburg.de/pykaldi/README.txt)
-> to quickly install PyKaldi.
+> to see the original installation readme.
 
 > Installation scripts and PyKaldi wheels available
 > [here](https://ltdata1.informatik.uni-hamburg.de/pykaldi/)
 
 
+### Local run
+
+```bash
+source .venv/bin/activate
+source paths.env
+make run
+```
+
+> NOTE: You might need to find your input device first and pass it to the `make run` command!
+>
+> ```bash
+> python nnet3_model.py --list-audio-interfaces
+> ```

@@ -55,7 +55,7 @@ from timer import Timer
 import numpy as np
 import samplerate
 
-import argparse
+from rich import print
 
 import scipy.io.wavfile as wavefile
 
@@ -170,7 +170,7 @@ def load_model(
 
     decoder_yaml_opts = model_yaml["decoder"]
 
-    print(decoder_yaml_opts)
+    print(f"Decoder yml options:\n{decoder_yaml_opts}")
 
     feat_opts = OnlineNnetFeaturePipelineConfig()
     endpoint_opts = OnlineEndpointConfig()
