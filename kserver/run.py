@@ -1,6 +1,6 @@
 from kserver.asr import decode_chunked_partial_endpointing
-from kserver.asr import decode_chunked_partial_endpointing_mic
 from kserver.asr import load_model
+from kserver.asr import mic_asr
 from kserver.cli import get_args
 from kserver.redis_channel import ASRRedisClient
 from kserver.utils import print_devices
@@ -48,25 +48,17 @@ if __name__ == "__main__":
             import pyaudio
 
             paudio = pyaudio.PyAudio()
-            decode_chunked_partial_endpointing_mic(
+            mic_asr(
                 asr,
                 feat_info,
                 decodable_opts,
-                paudio,
-                asr_client=asr_client,
                 input_microphone_id=args.micid,
-                speaker_str=args.speaker_name,
                 samp_freq=args.decode_samplerate,
                 record_samplerate=args.record_samplerate,
                 chunk_size=args.chunk_size,
-                wait_for_start_command=args.wait_for_start_command,
-                record_message_history=args.record_message_history,
                 channels=args.channels,
                 resample_algorithm=args.resample_algorithm,
                 save_debug_wav=args.save_debug_wav,
                 use_threads=args.use_threads,
                 minimum_num_frames_decoded_per_speaker=args.minimum_num_frames_decoded_per_speaker,
-                use_local_mic=not args.enable_server_mic,
-                decode_control_channel=args.redis_control_channel,
-                audio_data_channel=args.redis_audio_channel,
             )

@@ -1,4 +1,5 @@
 bs4
+coloredlogs
 flask
 flask_cors
 ninja
