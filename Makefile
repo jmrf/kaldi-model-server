@@ -48,7 +48,7 @@ clean:
 	# rm -rf pip-wheel-metadata
 
 run:
-	python nnet3_model.py -m 12
+	python -m kserver.run -m 12
 
 formatter:
 	black . --exclude kaldi/
