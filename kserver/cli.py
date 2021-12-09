@@ -1,8 +1,8 @@
 import argparse
 
+
 def get_args():
-    parser = argparse.ArgumentParser(
-        description="Starts a Kaldi nnet3 decoder")
+    parser = argparse.ArgumentParser(description="Starts a Kaldi nnet3 decoder")
     parser.add_argument(
         "-i",
         "--input",
@@ -146,7 +146,7 @@ def get_args():
         "--online-config",
         dest="online_config",
         help=(
-            "Path to the Kaldi online config. If not available, will try to read the " ,
+            "Path to the Kaldi online config. If not available, will try to read the ",
             "parameters from the yaml file and convert it to the Kaldi online config ",
             "format (See online_config_options.info.txt for details)",
         ),

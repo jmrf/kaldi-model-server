@@ -1,7 +1,8 @@
+from kserver.asr import decode_chunked_partial_endpointing
+from kserver.asr import decode_chunked_partial_endpointing_mic
+from kserver.asr import load_model
 from kserver.cli import get_args
-from kserver.asr import decode_chunked_partial_endpointing, decode_chunked_partial_endpointing_mic, load_model
 from kserver.redis_channel import ASRRedisClient
-
 from kserver.utils import print_devices
 
 
@@ -45,6 +46,7 @@ if __name__ == "__main__":
             )
         else:
             import pyaudio
+
             paudio = pyaudio.PyAudio()
             decode_chunked_partial_endpointing_mic(
                 asr,

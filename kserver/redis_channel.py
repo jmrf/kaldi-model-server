@@ -1,10 +1,12 @@
 import json
 import time
+
 import redis
 
 
 class Timer(object):
     """http://www.huyng.com/posts/python-performance-analysis/"""
+
     def __init__(self, verbose=False):
         self.verbose = verbose
 
@@ -31,9 +33,7 @@ class Timer(object):
 
 
 class ASRRedisClient:
-    def __init__(
-        self, host="localhost", channel="asr", record_message_history=False
-    ):
+    def __init__(self, host="localhost", channel="asr", record_message_history=False):
         self.red = redis.StrictRedis(host=host)
         self.channel = channel
         self.timer_started = False
@@ -125,4 +125,3 @@ class ASRRedisClient:
             "shutdown": shutdown,
         }
         self.red.publish(self.channel, json.dumps(data))
-

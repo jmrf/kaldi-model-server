@@ -1,8 +1,10 @@
-import redis
-from time import sleep
-import soundfile as sf
-import numpy as np
+import sys
 import time
+from time import sleep
+
+import numpy as np
+import redis
+import soundfile as sf
 
 red = redis.StrictRedis()
 

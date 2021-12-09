@@ -1,10 +1,8 @@
 import pyaudio
-
 from rich import print
 
 
 def print_devices():
-
     def _get_dev_info(idx, key):
         return paudio.get_device_info_by_host_api_device_index(0, idx).get(key)
 
@@ -19,4 +17,3 @@ def print_devices():
 
         if _get_dev_info(i, "maxOutputChannels") > 0:
             print(f"Output Device id {i} - {_get_dev_info(i, 'name')}")
-

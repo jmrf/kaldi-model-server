@@ -1,11 +1,11 @@
-pyparsing
-ninja
-redis
-pyyaml
-pyaudio
+bs4
 flask
 flask_cors
-bs4
+ninja
+pyaudio
+pyparsing
+pyyaml
+redis
 samplerate
 scipy
 soundfile

@@ -19,7 +19,6 @@
 #
 #
 #############################################################################
-
 import distutils.sysconfig as du_sysconfig
 import itertools
 import os

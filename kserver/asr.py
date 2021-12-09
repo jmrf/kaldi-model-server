@@ -1,31 +1,28 @@
-import yaml
-import os
-import pyaudio
-import time
 import logging
+import os
+import time
+from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
+import pyaudio
 import samplerate
 import scipy.io.wavfile as wavefile
-
-from concurrent.futures import ThreadPoolExecutor
+import yaml
 from rich import print
 
 from kaldi.asr import NnetLatticeFasterOnlineRecognizer
 from kaldi.decoder import LatticeFasterDecoderOptions
-from kaldi.nnet3 import NnetSimpleLoopedComputationOptions
-from kaldi.online2 import (
-    OnlineEndpointConfig,
-    OnlineIvectorExtractorAdaptationState,
-    OnlineNnetFeaturePipelineConfig,
-    OnlineNnetFeaturePipelineInfo,
-    OnlineNnetFeaturePipeline,
-    OnlineSilenceWeighting,
-)
-from kaldi.util.options import ParseOptions
-from kaldi.util.table import SequentialWaveReader
 from kaldi.lat.sausages import MinimumBayesRisk
 from kaldi.matrix import Vector
+from kaldi.nnet3 import NnetSimpleLoopedComputationOptions
+from kaldi.online2 import OnlineEndpointConfig
+from kaldi.online2 import OnlineIvectorExtractorAdaptationState
+from kaldi.online2 import OnlineNnetFeaturePipeline
+from kaldi.online2 import OnlineNnetFeaturePipelineConfig
+from kaldi.online2 import OnlineNnetFeaturePipelineInfo
+from kaldi.online2 import OnlineSilenceWeighting
+from kaldi.util.options import ParseOptions
+from kaldi.util.table import SequentialWaveReader
 
 
 logger = logging.getLogger(__name__)
@@ -95,35 +92,6 @@ def load_model(
     )
 
     return asr, feat_info, decodable_opts
-
-
-def decode_chunked_partial(scp:str = "scp:wav.scp"):
-    """ Decode whole utterance """
-    for key, wav in SequentialWaveReader(scp):
-        feat_pipeline = OnlineNnetFeaturePipeline(feat_info)
-        asr.set_input_pipeline(feat_pipeline)
-        asr.init_decoding()
-        data = wav.data()[0]
-        last_chunk = False
-        part = 1
-        prev_num_frames_decoded = 0
-        for i in range(0, len(data), chunk_size):
-            if i + chunk_size >= len(data):
-                last_chunk = True
-            feat_pipeline.accept_waveform(wav.samp_freq, data[i : i + chunk_size])
-            if last_chunk:
-                feat_pipeline.input_finished()
-            asr.advance_decoding()
-            num_frames_decoded = asr.decoder.num_frames_decoded()
-            if not last_chunk:
-                if num_frames_decoded > prev_num_frames_decoded:
-                    prev_num_frames_decoded = num_frames_decoded
-                    out = asr.get_partial_output()
-                    print(key + "-part%d" % part, out["text"], flush=True)
-                    part += 1
-        asr.finalize_decoding()
-        out = asr.get_output()
-        print(key + "-final", out["text"], flush=True)
 
 
 def decode_chunked_partial_endpointing(
@@ -280,6 +248,7 @@ def decode_chunked_partial_endpointing_mic(
     """
     # Subscribe to command and control redis channel
     import redis
+
     red = redis.StrictRedis(host="localhost")
     p = red.pubsub()
     p.subscribe(decode_control_channel)
@@ -314,7 +283,7 @@ def decode_chunked_partial_endpointing_mic(
     speaker = speaker_str.replace("#c#", "0")
     last_chunk = False
     utt, part = 1, 1
-    prev_num_frames_decoded, offset_complete = 0, 0
+    prev_num_frames_decoded = 0
     chunks_decoded = 0
     num_chunks = 0
     blocks = []
@@ -739,4 +708,3 @@ def reinitialize_asr(adaptation_state, asr, decodable_opts, feat_info, feat_pipe
         decodable_opts.frame_subsampling_factor,
     )
     return feat_pipeline, sil_weighting
-
