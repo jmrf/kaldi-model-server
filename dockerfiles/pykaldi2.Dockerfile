@@ -34,21 +34,14 @@ RUN apt-get update && \
 RUN mkdir /app
 WORKDIR /app
 
-# TODO: Host this elsewhere always accesible
-RUN wget -q \
-    https://ltdata1.informatik.uni-hamburg.de/pykaldi/pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
-
-
-COPY requirements.txt \
-    scripts/install_kaldi.sh \
+# Copy installation scripts
+COPY scripts/install_kaldi.sh \
     scripts/install_mkl.sh ./
 
 # Install Kaldi
 RUN ./install_mkl.sh
 RUN ln -s /usr/bin/python2.7 /usr/bin/python && \
-    ./install_kaldi.sh && \
-    rm pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl && \
-    find . -name "*.o" -type f -delete
+    ./install_kaldi.sh
 
 # Add Kaldi to the path
 ENV KALDI_ROOT=/app/kaldi
@@ -60,13 +53,11 @@ RUN virtualenv -p /usr/bin/python3.8 .pykaldi_env
 ENV VIRTUAL_ENV=/app/.pykaldi_env
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# Install python deps
-RUN pip3 install -r requirements.txt && \
-    pip3 install pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
+# TODO: Host this elsewhere always accesible
+RUN wget -q \
+    https://ltdata1.informatik.uni-hamburg.de/pykaldi/pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
 
-# Copy the repo code
-COPY kserver ./kserver
-
-# CMD [ "python", "-m", "kserver.run", "-m", "12" ]
-VOLUME ["/app/models"]
-CMD [ "python3", "-m", "kserver.run", "-l" ]
+# Install pykaldi
+RUN pip3 install pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
+RUN rm pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl && \
+        find . -name "*.o" -type f -delete

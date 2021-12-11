@@ -32,9 +32,9 @@ say @blue[["Using version $VERSION"]]
 
 {
     docker build --rm \
-        -t jmrf/asr-kaldi-server:${VERSION} \
-        -t jmrf/asr-kaldi-server:latest \
-        -f Dockerfile .
+        -t jmrf/asr-server:${VERSION} \
+        -t jmrf/asr-server:latest \
+        -f dockerfiles/asr_server.Dockerfile .
 
 } || {
   say @red[["Couldn't build Docker kserver image... exiting"]];

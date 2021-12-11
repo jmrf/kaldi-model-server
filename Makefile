@@ -79,10 +79,13 @@ test: clean
 	# (on tensorflow), avoiding overload
 	OMP_NUM_THREADS=1 pytest tests -n $(JOBS) --cov .
 
-build-docker:
-	# Examples:
-	# make build-docker version=0.1
-	./scripts/build_docker.sh $(version)
+build-pykaldi-docker:
+	docker build --rm \
+		-t jmrf/pykaldi:2-py38 \
+		-f dockerfiles/pykaldi2.Dockerfile .
+
+build-asr-docker:
+	./scripts/build_docker.sh
 
 upload-package: clean
 	python setup.py sdist
