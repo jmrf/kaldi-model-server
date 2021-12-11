@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  pykaldi-jupyter:
+    image: pykaldi/pykaldi:latest
+    network_mode: host
+    ports:
+      - "9009:9009"
+    volumes:
+      - "$PWD/pykaldi-home:/home"
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - "jupyter notebook --no-browser --ip=* --port=9009 --allow-root"
+
+  asr-server:
+    image: jmrf/asr-kaldi-server:latest
+    volumes:
+      - ${PWD}/models:/app/models
+    ports:
+      - 5000:5000
+    devices:
+      - /dev/snd:/dev/snd # Access to ALSA device
+
+  redis:
+    image: redis:latest
+    network_mode: "host"
+    ports:
+      - "6379:6379"
+    command:
+      - redis-server
+      - --protected-mode
+      - "no"

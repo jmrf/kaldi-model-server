@@ -1,7 +1,8 @@
 from kserver.asr import ASR
 from kserver.cli import get_args
-from kserver.redis_channel import ASRRedisClient
 from kserver.utils import print_devices
+
+# from kserver.redis_channel import ASRRedisClient
 
 
 if __name__ == "__main__":
@@ -12,14 +13,14 @@ if __name__ == "__main__":
         print("Listing audio interfaces...")
         print_devices()
     else:
-        # Init Redis client
-        asr_client = ASRRedisClient(
-            host=args.redis_server,
-            channel=args.redis_channel,
-            record_message_history=args.record_message_history,
-        )
-        # Send message via Reddis
-        asr_client.asr_loading(speaker=args.speaker_name)
+        # # Init Redis client
+        # asr_client = ASRRedisClient(
+        #     host=args.redis_server,
+        #     channel=args.redis_channel,
+        #     record_message_history=args.record_message_history,
+        # )
+        # # Send message via Reddis
+        # asr_client.asr_loading(speaker=args.speaker_name)
 
         # Load ASR model
         asr = ASR(

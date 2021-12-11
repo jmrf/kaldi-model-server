@@ -1,4 +1,11 @@
-models/
 example/
+models/
+kaldi/
+
+LICENSE
+Makefile
+
+.pre-commit-config.yaml
+setup.cfg
 
 online_config_options.info.txt

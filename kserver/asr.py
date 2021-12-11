@@ -184,7 +184,7 @@ class ASR:
         mbr = MinimumBayesRisk(out["lattice"])
         # confd is a vector with a confidence for each word of the best path
         confd = mbr.get_one_best_confidences()
-        logger.debug(confd)
+        logger.debug(f"confd: {confd}")
         print(f"utt-{utt}-final: {out['text']}", flush=True)
 
         return out, confd
@@ -378,7 +378,6 @@ class ASR:
                         resend_previous_waveform = False
 
                     need_finalize = False
-
                     prev_num_frames_decoded = 0
 
                 # If we operate on multichannel data, select the channel here that has the
@@ -445,6 +444,7 @@ class ASR:
         out = self.asr.get_output()
         # mbr = MinimumBayesRisk(out["lattice"])
         # confd = mbr.get_one_best_confidences()
+
         print(out)
         print(f"utt-{utt}-final: {out['text']}", flush=True)
 

@@ -94,5 +94,5 @@ make run
 > NOTE: You might need to find your input device first and pass it to the `make run` command!
 >
 > ```bash
-> python nnet3_model.py --list-audio-interfaces
+> python -m kserver.run --list-audio-interfaces
 > ```
