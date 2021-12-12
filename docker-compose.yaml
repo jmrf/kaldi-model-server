@@ -14,7 +14,7 @@ services:
       - "jupyter notebook --no-browser --ip=* --port=9009 --allow-root"
 
   asr-server:
-    image: jmrf/asr-kaldi-server:latest
+    image: jmrf/asr-server:latest
     volumes:
       - ${PWD}/models:/app/models
     ports:

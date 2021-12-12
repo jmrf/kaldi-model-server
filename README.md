@@ -96,3 +96,31 @@ make run
 > ```bash
 > python -m kserver.run --list-audio-interfaces
 > ```
+
+
+### Docker Build
+
+There are two stage docker images:
+
+ - [pykaldi2](dockerfiles/pykaldi2.Dockerfile): an Ubuntu 18.04 image with python3.8 and
+      pykaldi 2.0 installed serving as base for the ASR server image
+
+ - [asr_server](dockerfiles/asr_server.Dockerfile): Containing the Kaldi server
+
+
+ To built the images:
+
+ ```bash
+ make build-pykaldi-docker
+ make build-asr-docker
+ ```
+
+ ### Docker run
+
+ The easiest way is using `docker-compose`.
+
+ To tun the asr server:
+
+ ```bash
+ docker-compose up asr-server
+ ```
