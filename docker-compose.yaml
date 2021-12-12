@@ -17,6 +17,7 @@ services:
     image: jmrf/asr-server:latest
     volumes:
       - ${PWD}/models:/app/models
+      - ${PWD}/conf:/app/conf
     ports:
       - 5000:5000
     devices:

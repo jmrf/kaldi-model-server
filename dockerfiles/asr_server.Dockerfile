@@ -10,6 +10,7 @@ RUN pip3 install -r requirements.txt
 # Copy the repo code
 COPY kserver ./kserver
 
-# CMD [ "python", "-m", "kserver.run", "-m", "12" ]
 VOLUME ["/app/models"]
-CMD [ "python3", "-m", "kserver.run", "-l" ]
+VOLUME ["/app/conf"]
+# CMD [ "python3", "-m", "kserver.run", "-l" ]
+CMD [ "python", "-m", "kserver.run", "-m", "12" ]
