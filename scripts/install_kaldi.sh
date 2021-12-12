@@ -4,8 +4,8 @@
 #
 set -e
 
-# KALDI_GIT="-b pykaldi https://github.com/pykaldi/kaldi.git"
-KALDI_GIT="-b pykaldi https://github.com/uhh-lt/kaldi"
+# TODO: Install from own forket repo to avoid changes
+KALDI_GIT="-b pykaldi https://github.com/jmrf/kaldi"
 
 KALDI_DIR="$PWD/kaldi"
 

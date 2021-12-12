@@ -18,6 +18,10 @@ services:
     volumes:
       - ${PWD}/models:/app/models
       - ${PWD}/conf:/app/conf
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - "python -m kserver.run -m 12"
     ports:
       - 5000:5000
     devices:
