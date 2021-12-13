@@ -31,32 +31,32 @@ VERSION=$(python -c 'import kserver; print(kserver.__version__)')
 say @blue[["Using version $VERSION"]]
 
 {
-    # # https://docs.docker.com/desktop/multi-arch/
-    # # Create a multi-builder for: linux/amd64,linux/arm/v7
-    # say @magenta[["🏗️ Creating a buildx for: linux/amd64,linux/arm/v7"]]
-    # docker buildx create \
-    #   --name multi-builder \
-    #   --platform linux/amd64,linux/arm/v7 \
-    #   --use
-    # docker buildx inspect --bootstrap
+    # https://docs.docker.com/desktop/multi-arch/
+    # Create a multi-builder for: linux/amd64,linux/arm/v7
+    say @magenta[["🏗️ Creating a buildx for: linux/amd64,linux/arm/v7"]]
+    docker buildx create \
+      --name multi-builder \
+      --platform linux/amd64,linux/arm/v7 \
+      --use
+    docker buildx inspect --bootstrap
 
-    # # build for both platforms
-    # say @magenta[["🛠️  Starting build..."]]
-    # docker buildx build --rm \
-    #   --platform linux/amd64,linux/arm/v7 \
-    #   -t jmrf/asr-server:${VERSION} \
-    #   -t jmrf/asr-server:latest \
-    #   -f dockerfiles/asr.Dockerfile .
-
-    # # remove the builder
-    # say @magenta[["🧹 Removing buildx builder"]]
-    # docker buildx rm multi-builder
-
+    # build for both platforms
     say @magenta[["🛠️  Starting build..."]]
-    docker buildx build --rm --platform linux/amd64 \
+    docker buildx build --rm \
+      --platform linux/amd64,linux/arm/v7 \
       -t jmrf/asr-server:${VERSION} \
       -t jmrf/asr-server:latest \
       -f dockerfiles/asr.Dockerfile .
+
+    # remove the builder
+    say @magenta[["🧹 Removing buildx builder"]]
+    docker buildx rm multi-builder
+
+    # say @magenta[["🛠️  Starting build..."]]
+    # docker buildx build --rm --platform linux/amd64 \
+    #   -t jmrf/asr-server:${VERSION} \
+    #   -t jmrf/asr-server:latest \
+    #   -f dockerfiles/asr.Dockerfile .
 
 } || {
   say @red[["Couldn't build Docker kserver image... exiting"]];

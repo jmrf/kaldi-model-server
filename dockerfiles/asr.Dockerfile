@@ -3,8 +3,9 @@
 FROM ubuntu:18.04 as stage1
 
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
     portaudio19-dev \
+    libopenblas-dev \
     autoconf \
     automake \
     cmake \
@@ -27,10 +28,11 @@ RUN apt-get update && \
     sox \
     software-properties-common \
     gfortran \
-    alsa-utils
+    alsa-utils && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    mkdir /app
 
-
-RUN mkdir /app
 WORKDIR /app
 
 # Copy installation scripts
@@ -60,18 +62,20 @@ ENV PATH=$KALDI_ROOT/src/lmbin/:$KALDI_ROOT/../kaldi_lm/:$PWD/utils/:$KALDI_ROOT
 COPY kserver ./kserver
 COPY requirements.txt pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl ./
 
-# Install python deps
+# System deps
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
         gcc \
         libsamplerate0 \
         portaudio19-dev \
         python3-pyaudio && \
-    pip3 install -r requirements.txt && \
+        apt-get clean && \
+        rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Python deps
+RUN pip3 install -r requirements.txt && \
     pip3 install pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
 
 VOLUME ["/app/models"]
 VOLUME ["/app/conf"]
-# CMD [ "python3", "-m", "kserver.run", "-l" ]
-# CMD [ "python", "-m", "kserver.run", "-m", "12" ]
 ENTRYPOINT [ [ "python", "-m", "kserver.run" ]

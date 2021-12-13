@@ -259,6 +259,7 @@ class ASR:
         save_debug_wav=False,
         use_threads=False,
         mic_vol_cutoff=0.5,
+        continuous: bool = False,
     ):
         """Realtime decoding loop, uses blocking calls and interfaces a microphone
         directly (with pyaudio)
@@ -276,7 +277,7 @@ class ASR:
             resampler = samplerate.Resampler(resample_algorithm, channels=channels)
             need_resample = True
             ratio = samp_freq / record_samplerate
-            logger.debug("Resample ratio:", ratio)
+            logger.debug(f"Resample ratio: {ratio}")
 
         # Initialize Python/Kaldi bridge
         logger.info("Constructing decoding pipeline")
@@ -379,6 +380,10 @@ class ASR:
 
                     need_finalize = False
                     prev_num_frames_decoded = 0
+
+                    if not continuous:
+                        # stop listening after the first max frames
+                        break
 
                 # If we operate on multichannel data, select the channel here that has the
                 # highest volume.
