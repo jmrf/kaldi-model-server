@@ -27,7 +27,10 @@ RUN apt-get update && \
     sox \
     software-properties-common \
     gfortran \
-    alsa-utils
+    alsa-utils && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    mkdir /app
 
 
 RUN mkdir /app

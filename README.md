@@ -105,13 +105,16 @@ There are two stage docker images:
  - [pykaldi2](dockerfiles/pykaldi2.Dockerfile): an Ubuntu 18.04 image with python3.8 and
       pykaldi 2.0 installed serving as base for the ASR server image
 
- - [asr_server](dockerfiles/asr_server.Dockerfile): Containing the Kaldi server
+ - [asr](dockerfiles/asr.Dockerfile): Containing the Kaldi server that will build
+   both for `armv7` and `x86_64`
 
 
  To built the images:
 
  ```bash
  make build-pykaldi-docker
+ # Or
+ ./scripts/init_docker_multibuild.sh
  make build-asr-docker
  ```
 
