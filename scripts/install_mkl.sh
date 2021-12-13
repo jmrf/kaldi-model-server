@@ -66,6 +66,12 @@ shift $((OPTIND-1))
 orig_arg_package=${1-''}
 package=${1:-$default_package}
 
+# Check that we are in x86_64 (Skipp if we are not. e.g.: armv7 or amd64)
+[[ $(uname -m) == x86_64 ]] || {
+  echo "Skipping installation because of incompatible arch: $(uname -m)";
+  exit 0
+}
+
 # Check that we are actually on Linux, otherwise give a helpful reference.
 [[ $(uname) == Linux ]] || Fatal "\
 This script can be used on Linux only, and your system is $(uname).
