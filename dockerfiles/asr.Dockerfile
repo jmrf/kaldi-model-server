@@ -28,15 +28,10 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy installation scripts
-COPY scripts/install_kaldi.sh \
-    scripts/install_openblas.sh \
-    scripts/install_mkl.sh \
-    scripts/install_matrix_lib.sh \
-    ./
+COPY scripts/install_kaldi.sh ./
 
 # Install Kaldi
 RUN ln -s /usr/bin/python2.7 /usr/bin/python && \
-    ./install_matrix_lib.sh && \
     ./install_kaldi.sh
 
 
