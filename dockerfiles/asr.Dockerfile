@@ -58,10 +58,6 @@ ENV KALDI_ROOT=/app/kaldi
 ENV LD_LIBRARY_PATH=$KALDI_ROOT/src/lib:$KALDI_ROOT/tools/openfst-1.6.7/lib:$LD_LIBRARY_PATH
 ENV PATH=$KALDI_ROOT/src/lmbin/:$KALDI_ROOT/../kaldi_lm/:$PWD/utils/:$KALDI_ROOT/src/bin:$KALDI_ROOT/tools/openfst/bin:$KALDI_ROOT/src/fstbin/:$KALDI_ROOT/src/gmmbin/:$KALDI_ROOT/src/featbin/:$KALDI_ROOT/src/lm/:$KALDI_ROOT/src/sgmmbin/:$KALDI_ROOT/src/sgmm2bin/:$KALDI_ROOT/src/fgmmbin/:$KALDI_ROOT/src/latbin/:$KALDI_ROOT/src/nnetbin:$KALDI_ROOT/src/nnet2bin/:$KALDI_ROOT/src/online2bin/:$KALDI_ROOT/src/ivectorbin/:$KALDI_ROOT/src/kwsbin:$KALDI_ROOT/src/nnet3bin:$KALDI_ROOT/src/chainbin:$KALDI_ROOT/tools/sph2pipe_v2.5/:$KALDI_ROOT/src/rnnlmbin:$PWD:$PATH
 
-# Copy the repo code
-COPY kserver ./kserver
-COPY requirements.txt pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl ./
-
 # System deps
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -73,8 +69,12 @@ RUN apt-get update && \
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Python deps
+COPY requirements.txt pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl ./
 RUN pip3 install -r requirements.txt && \
     pip3 install pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
+
+# Copy the repo code
+COPY kserver ./kserver
 
 VOLUME ["/app/models"]
 VOLUME ["/app/conf"]
