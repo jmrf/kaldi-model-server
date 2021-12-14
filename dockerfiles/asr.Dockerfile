@@ -4,44 +4,38 @@ FROM ubuntu:18.04 as stage1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    portaudio19-dev \
-    libopenblas-dev \
     autoconf \
     automake \
-    cmake \
-    curl \
+    ca-certificates \
     g++ \
-    git \
-    graphviz \
-    libatlas3-base \
+    gfortran \
     libtool \
     make \
-    pkg-config \
+    patch \
+    python2.7 \
+    python3 \
+    sox \
     subversion \
     unzip \
     wget \
-    zlib1g-dev \
-    virtualenv \
-    python2.7 \
-    python3-dev \
-    libsamplerate0 \
-    sox \
-    software-properties-common \
-    gfortran \
-    alsa-utils && \
+    zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     mkdir /app
+
 
 WORKDIR /app
 
 # Copy installation scripts
 COPY scripts/install_kaldi.sh \
-    scripts/install_mkl.sh ./
+    scripts/install_openblas.sh \
+    scripts/install_mkl.sh \
+    scripts/install_matrix_lib.sh \
+    ./
 
 # Install Kaldi
-RUN ./install_mkl.sh
 RUN ln -s /usr/bin/python2.7 /usr/bin/python && \
+    ./install_matrix_lib.sh && \
     ./install_kaldi.sh
 
 

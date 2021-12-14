@@ -2,7 +2,6 @@ set -o pipefail
 
 sudo apt-get install \
   portaudio19-dev \
-  redis-server \
   autoconf \
   automake \
   cmake \
