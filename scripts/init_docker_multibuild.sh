@@ -22,6 +22,8 @@ say @magenta[["⚒️ Current docker builders:"]]
 docker buildx ls
 
 # https://docs.docker.com/desktop/multi-arch/
+# https://docs.docker.com/engine/reference/commandline/buildx_build/
+# https://www.docker.com/blog/getting-started-with-docker-for-arm-on-linux/
 # Create a multi-builder for: linux/amd64,linux/arm/v7
 say @magenta[["🏗️ Creating a buildx for: linux/amd64,linux/arm/v7"]]
 docker buildx create \
