@@ -7,6 +7,7 @@ RUN apt-get update && \
     autoconf \
     automake \
     ca-certificates \
+    git \
     g++ \
     gfortran \
     libtool \
@@ -72,4 +73,4 @@ RUN pip3 install -r requirements.txt && \
 
 VOLUME ["/app/models"]
 VOLUME ["/app/conf"]
-ENTRYPOINT [ [ "python", "-m", "kserver.run" ]
+ENTRYPOINT [ "python", "-m", "kserver.run" ]

@@ -36,4 +36,7 @@ if [ $architecture == x86_64 ]; then
 elif [[ $architecture == arm ]]; then
 	say @magenta[["Installing OpenBlas with: $cwd/install_openblas.sh"]]
 	$cwd/install_openblas.sh
+else
+	say @red[["Don't know what to do for Architecture $architecture. Exiting..."]]
+	exit 1
 fi
