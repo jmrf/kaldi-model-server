@@ -28,7 +28,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy installation scripts
-COPY scripts/install_kaldi.sh ./
+COPY scripts/install_kaldi.sh scripts/install_openblas_armv7.sh ./
 
 # Install Kaldi
 RUN ln -s /usr/bin/python2.7 /usr/bin/python && \

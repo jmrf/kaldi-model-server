@@ -40,27 +40,20 @@ touch "python/.use_default_python"
 
 ./extras/check_dependencies.sh
 
-architecture=""
-case $(uname -m) in
-    i386)   architecture="386" ;;
-    i686)   architecture="386" ;;
-    amd64)   architecture="amd64" ;;
-    x86_64) architecture="x86_64" ;;
-    arm)    dpkg --print-architecture | grep -q "arm64" && architecture="arm64" || architecture="arm" ;;
-esac
-
+architecture=$(uname -m)
 say @magenta[["Architecure is: ${architecture}"]]
 
-cwd=$(dirname $0)
 if [ $architecture == x86_64 ]; then
 	say @magenta[["Installing MKL with: ./extras/install_mkl.sh"]]
 	./extras/install_mkl.sh
-elif [[ $architecture == arm ]]; then
+elif [ $architecture == armv7l ]; then
+  # FIXME: Find script real path
+  # cwd=$(dirname realpath $0)
+	say @magenta[["Installing OpenBlas with: /app/install_openblas_armv7.sh"]]
+  /app/install_openblas_armv7.sh
+else
 	say @magenta[["Installing OpenBlas with: ./extras/install_openblas.sh"]]
 	./extras/install_openblas.sh
-else
-	say @red[["Don't know what to do for Architecture $architecture. Exiting..."]]
-	exit 1
 fi
 
 
