@@ -55,10 +55,12 @@ COPY requirements.txt pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl ./
 # System deps
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        gcc \
-        libsamplerate0 \
+        g++ \
+        gfortran \
         portaudio19-dev \
-        python3-pyaudio && \
+        python3-pyaudio \
+        libsamplerate0 \
+        libopenblas-dev liblapack-dev libffi-dev && \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
