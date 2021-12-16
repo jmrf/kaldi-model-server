@@ -115,7 +115,7 @@ There are two stage docker images:
  make build-pykaldi-docker
  # Or
  ./scripts/init_docker_multibuild.sh
- make build-asr-docker
+ make build-docker
  ```
 
  ### Docker run

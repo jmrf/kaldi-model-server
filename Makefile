@@ -84,7 +84,7 @@ build-pykaldi-docker:
 		-t jmrf/pykaldi:2-py38 \
 		-f dockerfiles/pykaldi2.Dockerfile .
 
-build-asr-docker:
+build-docker:
 	./scripts/build_docker.sh
 
 upload-package: clean
