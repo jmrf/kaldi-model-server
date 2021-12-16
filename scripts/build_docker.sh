@@ -33,7 +33,7 @@ say @blue[["Using version $VERSION"]]
 {
     # build for both platforms
     say @magenta[["🛠️  Starting linux/amd64,linux/arm/v7 build..."]]
-    docker buildx build --load \
+    docker buildx build --push \
       --platform linux/amd64,linux/arm/v7 \
       -t jmrf/asr-server:${VERSION} \
       -t jmrf/asr-server:latest \

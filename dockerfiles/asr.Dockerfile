@@ -65,8 +65,9 @@ RUN apt-get update && \
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Python deps
-RUN pip3 install -r requirements.txt && \
-    pip3 install pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
+RUN pip3 install -r requirements.txt
+RUN pip3 install pykaldi
+    # pip3 install pykaldi-0.2.0-cp38-cp38-linux_x86_64.whl
 
 VOLUME ["/app/models"]
 VOLUME ["/app/conf"]
