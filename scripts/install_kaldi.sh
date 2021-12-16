@@ -44,16 +44,16 @@ architecture=$(uname -m)
 say @magenta[["Architecure is: ${architecture}"]]
 
 if [ $architecture == x86_64 ]; then
-	say @magenta[["Installing MKL with: ./extras/install_mkl.sh"]]
-	./extras/install_mkl.sh
+	say @magenta[["Installing MKL with: $KALDI_DIR/tools/extras/install_mkl.sh"]]
+	$KALDI_DIR/tools/extras/install_mkl.sh
 elif [ $architecture == armv7l ]; then
   # FIXME: Find script real path
   # cwd=$(dirname realpath $0)
 	say @magenta[["Installing OpenBlas with: /app/install_openblas_armv7.sh"]]
   /app/install_openblas_armv7.sh
 else
-	say @magenta[["Installing OpenBlas with: ./extras/install_openblas.sh"]]
-	./extras/install_openblas.sh
+	say @magenta[["Installing OpenBlas with: $KALDI_DIR/tools/extras/install_openblas.sh"]]
+	$KALDI_DIR/tools/extras/install_openblas.sh
 fi
 
 
