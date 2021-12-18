@@ -100,23 +100,71 @@ make run
 
 ### Docker Build
 
-There are two stage docker images:
+There are two multi-arch (`armv7` and `x86_64`) docker images:
 
- - [pykaldi2](dockerfiles/pykaldi2.Dockerfile): an Ubuntu 18.04 image with python3.8 and
-      pykaldi 2.0 installed serving as base for the ASR server image
+ - [pykaldi](dockerfiles/pykaldi.Dockerfile): an Ubuntu 18.04 image with
+      kaldi, pykaldi==0.2.1 and python3.8 serving as base for the ASR server image.
+      In addition, a pykaldi .whl is built which can be extracted from the
+      image to install pykaldi much faster.
 
- - [asr](dockerfiles/asr.Dockerfile): Containing the Kaldi server that will build
-   both for `armv7` and `x86_64`
+ - [asr](dockerfiles/Dockerfile): Containing the **pyKaldi Server** and based
+      on the image above
 
 
- To built the images:
+ To build the images:
 
  ```bash
- make build-pykaldi-docker
- # Or
+ # First init docker's buildx
  ./scripts/init_docker_multibuild.sh
+ # Then build and push the images. Can take veeeeery long time
+ make build-pykaldi-docker
  make build-docker
  ```
+
+ To check the image has been built succesfully for both architectures:
+
+```bash
+docker manifest inspect jmrf/pykaldi:0.2.1-cp38
+```
+
+Which should output something similar to:
+
+```json
+{
+   "schemaVersion": 2,
+   "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
+   "manifests": [
+      {
+         "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+         "size": 2224,
+         "digest": "sha256:ca3f431364cda07e5f9b801352616ef5ee89237d6b05e16b48b10be348e9cece",
+         "platform": {
+            "architecture": "amd64",
+            "os": "linux"
+         }
+      },
+      {
+         "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+         "size": 2224,
+         "digest": "sha256:b3cf3d7834985113b937b4d6809c11ab971c0f95f242ffaad50cb2e0a77485bf",
+         "platform": {
+            "architecture": "arm",
+            "os": "linux",
+            "variant": "v7"
+         }
+      }
+   ]
+}
+```
+
+From the above `sha256 digest` you can try to run the image for another
+architecture by amulating with `qemu`:
+
+```bash
+docker run -it \
+   -v /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static \
+   jmrf/pykaldi:0.2.1-cp38@sha256:b3cf3d7834985113b937b4d6809c11ab971c0f95f242ffaad50cb2e0a77485bf
+```
 
  ### Docker run
 

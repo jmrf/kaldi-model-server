@@ -82,22 +82,11 @@ test: clean
 build-docker:
 	./scripts/build_docker.sh
 
-
 build-pykaldi-docker:
-	# TODO: When ready change to:
-	#
-	# docker buildx build --push \
-    # 	--platform linux/amd64,linux/arm/v7 \
-	# 	-t jmrf/pykaldi:0.2.1-cp38 \
-	# 	-f dockerfiles/pykaldi.Dockerfile .
-	#
-	# For now:
-	#
-	docker buildx build --load \
-    	--platform linux/amd64 \
+	docker buildx build --push \
+    	--platform linux/amd64,linux/arm/v7 \
 		-t jmrf/pykaldi:0.2.1-cp38 \
 		-f dockerfiles/pykaldi.Dockerfile .
-
 
 upload-package: clean
 	python setup.py sdist

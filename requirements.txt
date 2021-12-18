@@ -6,3 +6,4 @@ redis==4.0.2
 rich==10.15.2
 samplerate==0.1.0
 scipy==1.7.3
+git+https://github.com/wkentaro/gdown.git@v4.2.0#egg=gdown
