@@ -32,7 +32,7 @@ else
     say @red[["No available wheel for $arch!"]]
 fi
 
-
-# pip install $WHEEL_NAME
-# rm $WHEEL_NAME
+say @green[["Installing pyKaldi wheel..."]]
+pip install $WHEEL_NAME
+rm $WHEEL_NAME
 

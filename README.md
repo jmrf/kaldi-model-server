@@ -166,12 +166,18 @@ docker run -it \
    jmrf/pykaldi:0.2.1-cp38@sha256:b3cf3d7834985113b937b4d6809c11ab971c0f95f242ffaad50cb2e0a77485bf
 ```
 
- ### Docker run
+Alternatively:
 
- The easiest way is using `docker-compose`.
+```bash
+docker run -it --platform linux/arm/v7 jmrf/pykaldi:0.2.1-cp38
+```
 
- To tun the asr server:
+### Docker run
 
- ```bash
- docker-compose up asr-server
- ```
+The easiest way is using `docker-compose`.
+
+To tun the asr server:
+
+```bash
+docker-compose up asr-server
+```
