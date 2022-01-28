@@ -22,11 +22,12 @@ arch=$(uname -m)
 
 say @cyan[["Detected architecture: $arch"]]
 
+WHEEL_NAME="pykaldi-0.2.1-cp38-cp38-linux_$arch.whl"
 if [ $arch == x86_64 ]; then
-    say @green[["Downloading..."]]
+    say @green[["Downloading $WHEEL_NAME"]]
     gdown --id 1rEDy6G64dZE9piTCoLC7k5JLsUEC9iKU
-elif [ $arch == armv7 ]; then
-    say @green[["Downloading..."]]
+elif [ $arch == armv7l ]; then
+    say @green[["Downloading $WHEEL_NAME"]]
     gdown --id 1kwCikTCH7pX3IXrl03xprs_gyJjYXKJR
 else
     say @red[["No available wheel for $arch!"]]

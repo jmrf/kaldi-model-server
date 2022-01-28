@@ -79,6 +79,7 @@ ENV PATH=$KALDI_ROOT/src/lmbin/:$KALDI_ROOT/../kaldi_lm/:$PWD/utils/:$KALDI_ROOT
 # System deps
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        git \
         g++ \
         gfortran \
         portaudio19-dev \
@@ -88,15 +89,31 @@ RUN apt-get update && \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
-# Copy the repo code
-COPY kserver ./kserver
-COPY requirements.txt ./
-
 # Python deps
-RUN pip3 install \
-    pykaldi/dist/pykaldi-0.2.1-cp38-cp38-linux_$(uname -m).whl
-RUN pip install -r requirements.txt
+RUN pip install \
+    git+https://github.com/wkentaro/gdown.git@v4.2.0#egg=gdown \
+    coloredlogs \
+    pyaudio==0.2.11 \
+    PyYAML==6.0 \
+    rich==10.15.2 \
+    samplerate==0.1.0
+
+# If we armv7 then install scipy from .whl
+RUN if [[ $(uname -m) == armv7l ]]; then \
+    echo "⌛️ Downloading Scipy wheel for armv7" && \
+    gdown --id 1Y6ZOuyL2FmIuTHTfNXey1NMj5layjkj3 && \
+    pip install scipy-1.3.2-cp38-cp38-linux_armv7l.whl; \
+    else \
+        pip install scipy; \
+    fi
+
+# Copy the repo code and install pykaldi
+COPY scripts/install_pykaldi.sh ./
+RUN ./install_pykaldi.sh
+
+
+# Copy the source code
+COPY kserver ./kserver
 
 VOLUME ["/app/models"]
 VOLUME ["/app/conf"]
