@@ -331,7 +331,7 @@ class ASR:
                     block = npblock
 
                 # Only save the wav, if the save_debug flag is enabled
-                # (TODO: investigate: does not seem to work with multiple channels)
+                # (FIXME: investigate: does not seem to work with multiple channels)
                 if save_debug_wav:
                     blocks.append(block)
                     rawblocks.append(npblock)
@@ -383,6 +383,7 @@ class ASR:
 
                     if not continuous:
                         # stop listening after the first max frames
+                        # FIXME: How to control the listening time?
                         break
 
                 # If we operate on multichannel data, select the channel here that has the

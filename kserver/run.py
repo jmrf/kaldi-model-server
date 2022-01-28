@@ -55,5 +55,6 @@ if __name__ == "__main__":
             resample_algorithm=args.resample_algorithm,
             save_debug_wav=args.save_debug_wav,
             use_threads=args.use_threads,
+            continuous=True
             # minimum_num_frames_decoded_per_speaker=args.minimum_num_frames_decoded_per_speaker,
         )
