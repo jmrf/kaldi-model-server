@@ -33,11 +33,11 @@ say @blue[["Using version $VERSION"]]
 {
     # build for both platforms
     say @magenta[["🛠️  Starting linux/amd64,linux/arm/v7 build..."]]
-    docker buildx build --load --rm \
+    docker buildx build --push \
       --platform linux/amd64,linux/arm/v7 \
       -t jmrf/asr-server:${VERSION} \
       -t jmrf/asr-server:latest \
-      -f dockerfiles/asr.Dockerfile .
+      -f dockerfiles/Dockerfile .
 } || {
   say @red[["Couldn't build Docker kserver image... exiting"]];
   exit 1;
