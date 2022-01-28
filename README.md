@@ -12,6 +12,7 @@ of multiple audio speech streams (e.g. decoding meeting speech).
 Kaldi-model-server works on Linux (preferably Ubuntu / Debian based) and Mac OS X.
 
 > 🏗️ TODO: Explain the `server` component
+
 > 🏗️ TODO: Explain the `rabbitMQ` mechanism (instead of REDIS)
 
 ## Table of Contents
