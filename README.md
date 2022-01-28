@@ -11,6 +11,9 @@ of multiple audio speech streams (e.g. decoding meeting speech).
 
 Kaldi-model-server works on Linux (preferably Ubuntu / Debian based) and Mac OS X.
 
+> 🏗️ TODO: Explain the `server` component
+> 🏗️ TODO: Explain the `rabbitMQ` mechanism (instead of REDIS)
+
 ## Table of Contents
 
 <!--ts-->
@@ -19,10 +22,15 @@ Kaldi-model-server works on Linux (preferably Ubuntu / Debian based) and Mac OS 
       * [How To](#how-to)
          * [Local Installation](#local-installation)
             * [Ubuntu dependencies](#ubuntu-dependencies)
+            * [Python dependencies](#python-dependencies)
             * [Kaldi &amp; pre-built Pykaldi binaries](#kaldi--pre-built-pykaldi-binaries)
          * [Local run](#local-run)
+            * [Server](#server)
+            * [Client](#client)
+         * [Docker Build](#docker-build)
+         * [Docker run](#docker-run)
 
-<!-- Added by: jose, at: Thu Dec  9 00:36:03 CET 2021 -->
+<!-- Added by: jose, at: Fri Jan 28 23:56:27 CET 2022 -->
 
 <!--te-->
 
@@ -94,6 +102,14 @@ Then we can install `pykaldi` from pre-built wheels:
 
 ### Local run
 
+First download pre-trained models for English:
+
+```bash
+./scripts/download_example_models.sh
+```
+
+#### Server
+
 ```bash
 source .venv/bin/activate
 source paths.env
@@ -105,6 +121,22 @@ make run
 > ```bash
 > python -m kserver.run --list-audio-interfaces
 > ```
+
+#### Client
+
+To trigger the ASR from the mic:
+
+```python
+import json
+
+from kserver.rabbit import BlockingQueuePublisher
+
+# init the rabbitMQ Publisher
+pub = BlockingQueuePublisher("localhost", "asr-q", "fiona", "topic")
+
+# Send a hotword-detected event, which will trigger ASR from the local mic
+pub.send_message(json.dumps([{}]), "hotword-detected")
+```
 
 
 ### Docker Build
@@ -125,6 +157,7 @@ There are two multi-arch (`armv7` and `x86_64`) docker images:
  ```bash
  # First init docker's buildx
  ./scripts/init_docker_multibuild.sh
+
  # Then build and push the images. Can take veeeeery long time
  make build-pykaldi-docker
  make build-docker

@@ -1,5 +1,6 @@
 coloredlogs==15.0.1
 numpy==1.21.4
+pika>=1.2.0
 pyaudio==0.2.11
 PyYAML==6.0
 redis==4.0.2

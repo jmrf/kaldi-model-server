@@ -64,4 +64,5 @@ RUN cd pykaldi/tools && \
 # Create a .whl and install
 RUN cd pykaldi && \
     python setup.py bdist_wheel && \
-    pip install dist/pykaldi-0.2.1-cp38-cp38-linux_$(uname -m).whl
+    pip install dist/pykaldi-0.2.1-cp38-cp38-linux_$(uname -m).whl && \
+    find . -iname '*.o' -type f -delete
