@@ -49,19 +49,17 @@ RUN pip install --upgrade pip && \
 RUN git clone https://github.com/pykaldi/pykaldi.git && \
     cd pykaldi && \
         git clone -b pykaldi https://github.com/pykaldi/clif
-        # git clone -b pykaldi https://github.com/pykaldi/kaldi
 
 # Install all dependencies
-RUN cd pykaldi/tools && \
-    ./check_dependencies.sh && \
-    ./install_protobuf.sh && \
-    ./install_clif.sh
-
 COPY scripts/install_kaldi.sh scripts/install_openblas_armv7.sh ./
 RUN cd pykaldi/tools && \
-    /app/install_kaldi.sh
+        ./check_dependencies.sh && \
+        ./install_protobuf.sh && \
+        ./install_clif.sh && \
+        /app/install_kaldi.sh
 
 # Create a .whl and install
 RUN cd pykaldi && \
     python setup.py bdist_wheel && \
-    pip install dist/pykaldi-0.2.1-cp38-cp38-linux_$(uname -m).whl
+    pip install dist/pykaldi-0.2.1-cp38-cp38-linux_$(uname -m).whl && \
+    find . -iname '*.o' -exec rm '{}'
