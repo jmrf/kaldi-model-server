@@ -100,17 +100,16 @@ RUN pip install \
 
 # If we armv7 then install scipy from .whl
 RUN if [[ $(uname -m) == armv7l ]]; then \
-    echo "⌛️ Downloading Scipy wheel for armv7" && \
-    gdown --id 1Y6ZOuyL2FmIuTHTfNXey1NMj5layjkj3 && \
-    pip install scipy-1.3.2-cp38-cp38-linux_armv7l.whl; \
+        echo "⌛️ Downloading Scipy wheel for armv7" && \
+        gdown --id 1Y6ZOuyL2FmIuTHTfNXey1NMj5layjkj3 && \
+        pip install scipy-1.3.2-cp38-cp38-linux_armv7l.whl; \
     else \
         pip install scipy; \
     fi
 
-# Copy the repo code and install pykaldi
-COPY scripts/install_pykaldi.sh ./
-RUN ./install_pykaldi.sh
-
+# # Copy the repo code and install pykaldi
+# COPY scripts/install_pykaldi.sh ./
+# RUN ./install_pykaldi.sh
 
 # Copy the source code
 COPY kserver ./kserver
