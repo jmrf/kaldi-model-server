@@ -85,7 +85,7 @@ build-docker:
 build-pykaldi-docker:
 	docker buildx build --push \
     	--platform linux/amd64,linux/arm/v7 \
-		-t jmrf/pykaldi:0.2.1-cp38 \
+		-t jmrf/pykaldi:0.2.1-cp38-mini \
 		-f dockerfiles/pykaldi.Dockerfile .
 
 upload-package: clean

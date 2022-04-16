@@ -57,7 +57,7 @@ else
 fi
 
 
-make -j4
+make -j8
 
 cd ../src
 ./configure \
@@ -65,6 +65,6 @@ cd ../src
   --use-cuda=no \
   --static-math=yes
 
-make clean -j && make depend -j && make -j4
+make clean -j && make depend -j && make -j8 online2 decoder lat matrix nnet3 util
 
 say @green[[ "🎉 Done installing Kaldi." ]]
