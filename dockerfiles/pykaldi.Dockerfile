@@ -46,20 +46,24 @@ RUN pip install --upgrade pip && \
             wheel \
             ninja  # not required but strongly recommended
 
-RUN git clone https://github.com/pykaldi/pykaldi.git && \
+# clone pykaldi v0.2.2
+RUN git clone -b v0.2.2 --depth 1 https://github.com/pykaldi/pykaldi.git && \
     cd pykaldi && \
         git clone -b pykaldi https://github.com/pykaldi/clif
 
 # Install all dependencies
-COPY scripts/install_kaldi.sh scripts/install_openblas_armv7.sh ./
 RUN cd pykaldi/tools && \
         ./check_dependencies.sh && \
         ./install_protobuf.sh && \
-        ./install_clif.sh && \
-        /app/install_kaldi.sh
+        ./install_clif.sh
+
+# Install Kaldi
+COPY scripts/install_kaldi.sh ./
+RUN cd pykaldi/tools && /app/install_kaldi.sh
 
 # Create a .whl and install
 RUN cd pykaldi && \
     python setup.py bdist_wheel && \
-    pip install dist/pykaldi-0.2.1-cp38-cp38-linux_$(uname -m).whl && \
-    find . -iname '*.o' -exec rm '{}'
+    pip install dist/pykaldi-0.2.2-cp38-cp38-linux_$(uname -m).whl && \
+    find . -iname '*.o' -exec rm '{}' \; && \
+    echo "🎆 Done!"
