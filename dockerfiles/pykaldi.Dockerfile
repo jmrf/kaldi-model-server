@@ -52,14 +52,14 @@ RUN git clone -b v0.2.2 --depth 1 https://github.com/pykaldi/pykaldi.git && \
         git clone -b pykaldi https://github.com/pykaldi/clif
 
 # Install all dependencies
-COPY scripts/install_kaldi.sh scripts/install_openblas_armv7.sh ./
 RUN cd pykaldi/tools && \
         ./check_dependencies.sh && \
         ./install_protobuf.sh && \
         ./install_clif.sh
 
 # Install Kaldi
-RUN /app/install_kaldi.sh
+COPY scripts/install_kaldi.sh ./
+RUN cd pykaldi/tools && /app/install_kaldi.sh
 
 # Create a .whl and install
 RUN cd pykaldi && \

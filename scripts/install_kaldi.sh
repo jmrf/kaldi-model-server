@@ -47,17 +47,17 @@ if [ $architecture == x86_64 ]; then
 	say @magenta[["Installing MKL with: $KALDI_DIR/tools/extras/install_mkl.sh"]]
 	$KALDI_DIR/tools/extras/install_mkl.sh
 elif [ $architecture == armv7l ]; then
-  # FIXME: Find script real path
-  # cwd=$(dirname realpath $0)
-	say @magenta[["Installing OpenBlas with: /app/install_openblas_armv7.sh"]]
-  /app/install_openblas_armv7.sh
+  # NOTE: This script has to be copied from 'scripts/', not present by default
+  #       in the kaldi repo.
+	say @magenta[["Installing OpenBlas with: $KALDI_DIR/tools/extras/install_openblas_armv7.sh"]]
+  $KALDI_DIR/tools/extras/install_openblas_armv7.sh
 else
 	say @magenta[["Installing OpenBlas with: $KALDI_DIR/tools/extras/install_openblas.sh"]]
 	$KALDI_DIR/tools/extras/install_openblas.sh
 fi
 
 
-make -j8
+make -j $(nproc)
 
 cd ../src
 ./configure \
@@ -65,6 +65,6 @@ cd ../src
   --use-cuda=no \
   --static-math=yes
 
-make clean -j && make depend -j && make -j8 online2 decoder lat matrix nnet3 util
+make clean -j && make depend -j && make -j $(nproc)
 
 say @green[[ "🎉 Done installing Kaldi." ]]
