@@ -49,16 +49,15 @@ if [ $architecture == x86_64 ]; then
 	say @magenta[["Installing MKL with: $KALDI_DIR/tools/extras/install_mkl.sh"]]
 	$KALDI_DIR/tools/extras/install_mkl.sh -s
 elif [ $architecture == armv7l ]; then
-  # FIXME: Check if the 'current working dir' works
-	say @magenta[["Installing OpenBlas with: ${cwd}/install_openblas_armv7.sh"]]
-  ${cwd}/install_openblas_armv7.sh
+	say @magenta[["Installing OpenBlas with: $KALDI_DIR/tools/extras/install_openblas_armv7.sh"]]
+  $KALDI_DIR/tools/extras/install_openblas_armv7.sh
 else
 	say @magenta[["Installing OpenBlas with: $KALDI_DIR/tools/extras/install_openblas.sh"]]
 	$KALDI_DIR/tools/extras/install_openblas.sh
 fi
 
 
-make -j4
+make -j $(nproc)
 
 cd ../src
 ./configure \
@@ -66,6 +65,6 @@ cd ../src
   --use-cuda=no \
   --static-math=yes
 
-make clean -j && make depend -j && make -j4
+make clean -j && make depend -j && make -j $(nproc)
 
 say @green[[ "🎉 Done installing Kaldi." ]]

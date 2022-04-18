@@ -167,7 +167,7 @@ There are two multi-arch (`armv7` and `x86_64`) docker images:
  To check the image has been built succesfully for both architectures:
 
 ```bash
-docker manifest inspect jmrf/pykaldi:0.2.1-cp38
+docker manifest inspect jmrf/pykaldi:0.2.2-cp38
 ```
 
 Which should output something similar to:
@@ -206,13 +206,13 @@ architecture by amulating with `qemu`:
 ```bash
 docker run -it \
    -v /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static \
-   jmrf/pykaldi:0.2.1-cp38@sha256:b3cf3d7834985113b937b4d6809c11ab971c0f95f242ffaad50cb2e0a77485bf
+   jmrf/pykaldi:0.2.2-cp38@sha256:b3cf3d7834985113b937b4d6809c11ab971c0f95f242ffaad50cb2e0a77485bf
 ```
 
 Alternatively:
 
 ```bash
-docker run -it --platform linux/arm/v7 jmrf/pykaldi:0.2.1-cp38
+docker run -it --platform linux/arm/v7 jmrf/pykaldi:0.2.2-cp38
 ```
 
 ### Docker run
