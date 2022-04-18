@@ -41,14 +41,14 @@ touch "python/.use_default_python"
 ./extras/check_dependencies.sh
 
 architecture=$(uname -m)
-say @magenta[["Architecure is: ${architecture}"]]
+cwd=$(dirname $0)
+say @magenta[["Architecure is: ${architecture} | script dir: ${cwd}"]]
+
 
 if [ $architecture == x86_64 ]; then
 	say @magenta[["Installing MKL with: $KALDI_DIR/tools/extras/install_mkl.sh"]]
-	$KALDI_DIR/tools/extras/install_mkl.sh
+	$KALDI_DIR/tools/extras/install_mkl.sh -s
 elif [ $architecture == armv7l ]; then
-  # NOTE: This script has to be copied from 'scripts/', not present by default
-  #       in the kaldi repo.
 	say @magenta[["Installing OpenBlas with: $KALDI_DIR/tools/extras/install_openblas_armv7.sh"]]
   $KALDI_DIR/tools/extras/install_openblas_armv7.sh
 else

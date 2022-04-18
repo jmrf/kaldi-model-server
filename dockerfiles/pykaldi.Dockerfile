@@ -67,3 +67,4 @@ RUN cd pykaldi && \
     pip install dist/pykaldi-0.2.2-cp38-cp38-linux_$(uname -m).whl && \
     find . -iname '*.o' -exec rm '{}' \; && \
     echo "🎆 Done!"
+

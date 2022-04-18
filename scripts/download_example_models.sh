@@ -9,8 +9,8 @@ cd models/
 MODEL_FILE=en_160k_nnet3chain_tdnn1f_2048_sp_bi.tar.bz2
 if [ ! -f $MODEL_FILE ]; then
     wget http://ltdata1.informatik.uni-hamburg.de/pykaldi/$MODEL_FILE
-    tar xvfj en_160k_nnet3chain_tdnn1f_2048_sp_bi.tar.bz2
-    rm en_160k_nnet3chain_tdnn1f_2048_sp_bi.tar.bz2
+    tar xvfj $MODEL_FILE
+    rm $MODEL_FILE
 fi
 
 cd -

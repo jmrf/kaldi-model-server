@@ -1,8 +1,15 @@
+import logging
+import json
+
 from kserver.asr import ASR
 from kserver.cli import get_args
 from kserver.utils import print_devices
 
 # from kserver.redis_channel import ASRRedisClient
+from kserver.rabbit import BlockingQueueConsumer
+
+
+logger = logging.getLogger(__name__)
 
 
 if __name__ == "__main__":
@@ -10,7 +17,7 @@ if __name__ == "__main__":
     args = get_args()
 
     if args.list_audio_interfaces:
-        print("Listing audio interfaces...")
+        logger.info("Listing audio interfaces...")
         print_devices()
     else:
         # # Init Redis client
@@ -46,14 +53,32 @@ if __name__ == "__main__":
         #     )
         # else:
 
-        asr.mic_asr(
-            input_microphone_id=args.micid,
-            samp_freq=args.decode_samplerate,
-            record_samplerate=args.record_samplerate,
-            chunk_size=args.chunk_size,
-            channels=args.channels,
-            resample_algorithm=args.resample_algorithm,
-            save_debug_wav=args.save_debug_wav,
-            use_threads=args.use_threads,
-            # minimum_num_frames_decoded_per_speaker=args.minimum_num_frames_decoded_per_speaker,
+        def open_mic(event):
+            logger.debug(f"Rx event: {event}")
+            asr.mic_asr(
+                input_microphone_id=args.micid,
+                samp_freq=args.decode_samplerate,
+                record_samplerate=args.record_samplerate,
+                chunk_size=args.chunk_size,
+                channels=args.channels,
+                resample_algorithm=args.resample_algorithm,
+                save_debug_wav=args.save_debug_wav,
+                use_threads=args.use_threads,
+                continuous=False
+                # minimum_num_frames_decoded_per_speaker=args.minimum_num_frames_decoded_per_speaker,
+            )
+
+        consumer = BlockingQueueConsumer(
+            "localhost",
+            on_event=open_mic,
+            on_done=lambda: logger.info("Done!"),
+            load_func=json.loads,
+            queue_name="asr-q",
+            exchange_name="fiona",
+            exchange_type="topic",
+            routing_keys=["hotword-detected"],
         )
+
+        consumer.consume()
+
+
